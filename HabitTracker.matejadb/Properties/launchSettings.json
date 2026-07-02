@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HabitTracker.matejadb": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\stank\\source\\repos\\CodeReviews.Console.HabitTracker\\HabitTracker.matejadb"
+    }
+  }
+}
