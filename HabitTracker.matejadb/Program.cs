@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace HabitTracker.matejadb;
 
-class Program
+public class Program
 {
     static string connectionString = "Data Source=habit_tracker.db";
     static void Main(string[] args)
@@ -245,7 +245,7 @@ class Program
 
     // Util functions
 
-    static bool ValidateDate(string date)
+    public static bool ValidateDate(string date)
     {
         DateTime result;
         string format = "yyyy-MM-dd";
