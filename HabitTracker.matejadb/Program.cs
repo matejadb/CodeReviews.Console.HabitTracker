@@ -100,7 +100,10 @@ class Program
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = $"INSERT INTO drinking_water(Date, Occurance) VALUES('{dateInput}', '{occuranceInput}')";
+                command.CommandText = @"INSERT INTO drinking_water(Date, Occurance) VALUES(@date, @occurance)";
+                command.Parameters.AddWithValue("@date", dateInput);
+                command.Parameters.AddWithValue("@occurance", occuranceInput);
+
                 command.ExecuteNonQuery();
 
                 Console.WriteLine("\nOccurance inserted successfully!\nPress any key to continue...");
@@ -139,9 +142,13 @@ class Program
 
                 var command = connection.CreateCommand();
 
-                command.CommandText = $"UPDATE drinking_water " +
-                    $"SET Date = '{updatedDate}', Occurance = '{updatedOccurance}' " +
-                    $"WHERE Id = {id}";
+                command.CommandText = @"UPDATE drinking_water " +
+                    $"SET Date = @date, Occurance = @occurance " +
+                    $"WHERE Id = @id";
+
+                command.Parameters.AddWithValue("@date", updatedDate);
+                command.Parameters.AddWithValue("@occurance", updatedOccurance);
+                command.Parameters.AddWithValue("@id", id);
 
                 int rowsAffected = command.ExecuteNonQuery();
 
@@ -212,7 +219,9 @@ class Program
 
                 var command = connection.CreateCommand();
 
-                command.CommandText = $"DELETE FROM drinking_water WHERE Id={id}";
+                command.CommandText = @"DELETE FROM drinking_water WHERE Id=@id";
+
+                command.Parameters.AddWithValue("@id", id);
 
                 int rowsAffected = command.ExecuteNonQuery();
 
