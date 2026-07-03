@@ -23,16 +23,16 @@ Developed in C#, database used is SQLite.
 ### Console UI
 
 #### Main Menu
-[image here]
+<img width="240" height="162" alt="Image" src="https://github.com/user-attachments/assets/a55e42fa-2414-4340-8d29-bbacef93df60" />
 
 #### Insert 
-[image here]
+<img width="509" height="163" alt="Image" src="https://github.com/user-attachments/assets/fe644c0a-78ac-4ef7-85c4-17cb417ba736" />
 
 ### View all
-[image here]
+<img width="260" height="263" alt="Image" src="https://github.com/user-attachments/assets/952b5177-9dcc-4c6a-ab2b-b9a5050fecd4" />
 
 ### Delete
-[image here]
+<img width="403" height="308" alt="Image" src="https://github.com/user-attachments/assets/c8a0f449-2974-4cb5-99a8-ac8a2f124223" />
 
 ## Challenges
 
