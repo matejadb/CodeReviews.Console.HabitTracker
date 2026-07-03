@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Globalization;
 
 namespace HabitTracker.matejadb;
 
@@ -14,7 +15,7 @@ class Program
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = @"CREATE TABLE IF NOT EXISTS coding (
+                command.CommandText = @"CREATE TABLE IF NOT EXISTS drinking_water (
                   Id INTEGER PRIMARY KEY AUTOINCREMENT, 
                   Date TEXT NOT NULL,
                   Occurance INTEGER NOT NULL)";
@@ -37,10 +38,10 @@ class Program
     {
         Console.Clear();
         Console.WriteLine("========HABIT TRACKER========\n");
-        Console.WriteLine("1. Insert a new coding habit");
-        Console.WriteLine("2. Update a coding habit");
-        Console.WriteLine("3. View coding habits");
-        Console.WriteLine("4. Delete a coding habit");
+        Console.WriteLine("1. Insert a new habit");
+        Console.WriteLine("2. Update a habit");
+        Console.WriteLine("3. View all");
+        Console.WriteLine("4. Delete a habit");
         Console.WriteLine("5. Exit\n");
         Console.WriteLine("=============================");
         Console.Write("Please select an option: ");
@@ -50,16 +51,16 @@ class Program
         switch (input)
         {
             case "1":
-                InsertCodingHabit();
+                InsertHabit();
                 break;
             case "2":
-                UpdateCodingHabit();
+                UpdateHabit();
                 break;
             case "3":
-                ViewCodingHabits();
+                ViewHabits();
                 break;
             case "4":
-                DeleteCodingHabit();
+                DeleteHabit();
                 break;
             case "5":
                 Console.WriteLine("Exiting the application.");
@@ -73,22 +74,22 @@ class Program
         }
     }
 
-    private static void DeleteCodingHabit()
+    private static void DeleteHabit()
     {
         throw new NotImplementedException();
     }
 
-    private static void ViewCodingHabits()
+    private static void ViewHabits()
     {
         throw new NotImplementedException();
     }
 
-    private static void UpdateCodingHabit()
+    private static void UpdateHabit()
     {
         throw new NotImplementedException();
     }
 
-    private static void InsertCodingHabit()
+    private static void InsertHabit()
     {
         Console.Clear();
         Console.WriteLine("==========================NEW HABIT==========================");
@@ -106,7 +107,7 @@ class Program
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = $"INSERT INTO coding(Date, Occurance) VALUES('{dateInput}', '{occuranceInput}')";
+                command.CommandText = $"INSERT INTO drinking_water(Date, Occurance) VALUES('{dateInput}', '{occuranceInput}')";
                 command.ExecuteNonQuery();
 
                 connection.Close();
@@ -122,10 +123,30 @@ class Program
 
         Menu();
     }
+
+    static bool ValidateDate(string date)
+    {
+        DateTime result;
+        string format = "yyyy-MM-dd";
+
+        return DateTime.TryParseExact(date, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
+    }
     private static string GetDateFromUser() 
     {
-        Console.Write("\nInsert the date of the coding habit (YYYY-MM-DD): ");
-        string date = Console.ReadLine();
+        bool isValid = false;
+        string date;
+
+        Console.Write("\nInsert the date of the habit (yyyy-MM-dd): ");
+        do
+        {
+            date = Console.ReadLine();
+            isValid = ValidateDate(date);
+
+            if(!isValid)
+            {
+                Console.Write("\nInvalid input. Please enter a valid date: ");
+            }
+        } while (!isValid);
 
         return date;
     }
