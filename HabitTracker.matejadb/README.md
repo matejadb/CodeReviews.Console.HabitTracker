@@ -16,6 +16,23 @@ Developed in C#, database used is SQLite.
 - Your project needs to contain a Read Me file where you'll explain how your app works and tell a little bit about your thought progress. What was hard? What was easy? What have you learned? Here's a nice example:
 
 ## Features
+### SQLite Database
+- Program uses SQLite to store and read information.
+- If no database or table exists, they will be created when the program starts.
+
+### Console UI
+
+#### Main Menu
+[image here]
+
+#### Insert 
+[image here]
+
+### View all
+[image here]
+
+### Delete
+[image here]
 
 ## Challenges
 
