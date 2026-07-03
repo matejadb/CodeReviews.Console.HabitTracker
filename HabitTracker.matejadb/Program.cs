@@ -78,9 +78,39 @@ class Program
         }
     }
 
+    // Validate Id
     private static void DeleteHabit()
     {
-        throw new NotImplementedException();
+        ViewHabits();
+        Console.Write("Select an id of the occurance you wish to delete: ");
+        string id = Console.ReadLine();
+
+        try
+        {
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+
+                command.CommandText = $"DELETE FROM drinking_water WHERE Id={id}";
+
+                command.ExecuteNonQuery();
+
+
+                connection.Close();
+            }
+        }
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        Console.WriteLine("\nOccurance deleted successfully!\nPress any key to continue...");
+        Console.ReadKey();
+
+        Menu();
     }
 
     private static void ViewHabits()
@@ -93,6 +123,7 @@ class Program
             using (var connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
+
                 var command = connection.CreateCommand();
 
                 command.CommandText = @"SELECT Id, Date, Occurance FROM drinking_water";
@@ -150,7 +181,7 @@ class Program
             Console.WriteLine(ex.Message);
         }
 
-        Console.WriteLine("\nHabit updated successfully!\nPress any key to continue...");
+        Console.WriteLine("\nOccurance updated successfully!\nPress any key to continue...");
         Console.ReadKey();
 
         Menu();
@@ -160,7 +191,7 @@ class Program
     private static void InsertHabit()
     {
         Console.Clear();
-        Console.WriteLine("==========================NEW HABIT==========================");
+        Console.WriteLine("==========================NEW OCCURANCE==========================");
 
         Console.Write("\nInsert the date of the habit (yyyy-MM-dd): ");
         string dateInput = GetDateFromUser();
@@ -168,27 +199,17 @@ class Program
         Console.Write("\nInsert the number of occurrences: ");
         int occuranceInput = GetOccuranceFromUser();
 
-        Console.WriteLine("=============================================================");
+        Console.WriteLine("==================================================================");
 
         try
         {
             using (var connection = new SqliteConnection(connectionString))
-            using (var transaction = connection.BeginTransaction())
             {
                 connection.Open();
                 var command = connection.CreateCommand();
 
                 command.CommandText = $"INSERT INTO drinking_water(Date, Occurance) VALUES('{dateInput}', '{occuranceInput}')";
-                try
-                {
-                    command.ExecuteNonQuery();
-                    transaction.Commit();
-                }
-                catch (SqliteException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    transaction.Rollback();
-                }
+                command.ExecuteNonQuery();
 
                 connection.Close();
             }
@@ -199,7 +220,7 @@ class Program
         }
         ;
 
-        Console.WriteLine("\nHabit inserted successfully!\nPress any key to continue...");
+        Console.WriteLine("\nOccurance inserted successfully!\nPress any key to continue...");
         Console.ReadKey();
 
         Menu();
