@@ -81,7 +81,37 @@ class Program
 
     private static void ViewHabits()
     {
-        throw new NotImplementedException();
+        Console.Clear();
+        Console.WriteLine("======WATER DRINKING HISTORY======");
+        Console.WriteLine("\nId\tDate\t\tOccurance\n");
+        try
+        {
+            using (var connection = new SqliteConnection(connectionString)) 
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+
+                command.CommandText = @"SELECT Id, Date, Occurance FROM drinking_water";
+
+                var reader = command.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    Console.WriteLine($"{reader.GetString(0)}.\t{reader.GetString(1)}\t{reader.GetString(2)}\n");
+                }
+        }
+
+        } catch(SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        Console.WriteLine("\n==================================");
+        
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+
+        Menu();
+
     }
 
     private static void UpdateHabit()
