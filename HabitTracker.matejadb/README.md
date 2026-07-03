@@ -35,6 +35,8 @@ Developed in C#, database used is SQLite.
 <img width="403" height="308" alt="Image" src="https://github.com/user-attachments/assets/c8a0f449-2974-4cb5-99a8-ac8a2f124223" />
 
 ## Challenges
+- It has been a while since I've used SQL so I needed a refresher
+- Since I've never used SQLite with C# (or SQLite at all), it took a bit of time to get comfortable writing it
 
 ## Lessons Learned
 
