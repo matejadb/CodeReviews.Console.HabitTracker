@@ -7,28 +7,35 @@ class Program
     static string connectionString = "Data Source=habit_tracker.db";
     static void Main(string[] args)
     {
-
-        using (var connection = new SqliteConnection(connectionString))
+        try
         {
-            connection.Open();
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"CREATE TABLE IF NOT EXISTS coding (
+                command.CommandText = @"CREATE TABLE IF NOT EXISTS coding (
                   Id INTEGER PRIMARY KEY AUTOINCREMENT, 
                   Date TEXT NOT NULL,
                   Occurance INTEGER NOT NULL)";
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
-            connection.Close();
+                connection.Close();
 
-            Menu();
+            }
         }
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        Menu();
 
     }
 
     private static void Menu()
     {
+        Console.Clear();
         Console.WriteLine("========HABIT TRACKER========\n");
         Console.WriteLine("1. Insert a new coding habit");
         Console.WriteLine("2. Update a coding habit");
@@ -40,7 +47,7 @@ class Program
 
         string input = Console.ReadLine();
 
-        switch(input)
+        switch (input)
         {
             case "1":
                 InsertCodingHabit();
@@ -83,6 +90,62 @@ class Program
 
     private static void InsertCodingHabit()
     {
-        throw new NotImplementedException();
+        Console.Clear();
+        Console.WriteLine("==========================NEW HABIT==========================");
+
+        string dateInput = GetDateFromUser();
+
+        int occuranceInput = GetOccuranceFromUser();
+
+        Console.WriteLine("=============================================================");
+
+        try
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+
+                command.CommandText = $"INSERT INTO coding(Date, Occurance) VALUES('{dateInput}', '{occuranceInput}')";
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        };
+
+        Console.WriteLine("\nHabit inserted successfully!\nPress any key to continue...");
+        Console.ReadKey();
+
+        Menu();
     }
+    private static string GetDateFromUser() 
+    {
+        Console.Write("\nInsert the date of the coding habit (YYYY-MM-DD): ");
+        string date = Console.ReadLine();
+
+        return date;
+    }
+
+    private static int GetOccuranceFromUser()
+    {
+        int occurance = -1;
+
+        Console.Write("\nInsert the number of occurrences: ");
+        do
+        {
+            occurance = Int32.TryParse(Console.ReadLine(), out occurance) ? occurance : -1;
+
+            if(occurance == -1 || occurance < 0)
+            {
+                Console.Write("\nInvalid input. Please enter a valid number of occurrences: ");
+            }
+        } while (occurance == -1 || occurance < 0);
+
+        return occurance;
+    }
+
 }
