@@ -52,6 +52,7 @@ class Program
         {
             case "1":
                 InsertHabit();
+                Menu();
                 break;
             case "2":
                 UpdateHabit();
@@ -59,7 +60,6 @@ class Program
                 break;
             case "3":
                 ViewHabits();
-
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
                 Menu();
@@ -103,19 +103,18 @@ class Program
                 command.CommandText = $"INSERT INTO drinking_water(Date, Occurance) VALUES('{dateInput}', '{occuranceInput}')";
                 command.ExecuteNonQuery();
 
+                Console.WriteLine("\nOccurance inserted successfully!\nPress any key to continue...");
+                Console.ReadKey();
+
                 connection.Close();
             }
         }
         catch (SqliteException ex)
         {
             Console.WriteLine(ex.Message);
-        }
-        ;
+        };
 
-        Console.WriteLine("\nOccurance inserted successfully!\nPress any key to continue...");
-        Console.ReadKey();
 
-        Menu();
     }
 
     private static void UpdateHabit()
@@ -186,6 +185,8 @@ class Program
                 {
                     Console.WriteLine($"{reader.GetString(0)}.\t{reader.GetString(1)}\t{reader.GetString(2)}\n");
                 }
+
+                connection.Close();
             }
 
         }
